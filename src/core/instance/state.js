@@ -46,8 +46,11 @@ export function proxy (target: Object, sourceKey: string, key: string) {
 }
 
 export function initState (vm: Component) {
+  // 定义监控的数组
   vm._watchers = []
+  // $options缓存
   const opts = vm.$options
+  // 初始化props，methods，data，computed，watch，数据监控
   if (opts.props) initProps(vm, opts.props)
   if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
@@ -62,6 +65,7 @@ export function initState (vm: Component) {
 }
 
 function initProps (vm: Component, propsOptions: Object) {
+  // propsData是子组件的props
   const propsData = vm.$options.propsData || {}
   const props = vm._props = {}
   // cache prop keys so that future props updates can iterate using Array
@@ -97,6 +101,7 @@ function initProps (vm: Component, propsOptions: Object) {
         }
       })
     } else {
+      // 这里是在干嘛？
       defineReactive(props, key, value)
     }
     // static props are already proxied on the component's prototype
@@ -111,6 +116,7 @@ function initProps (vm: Component, propsOptions: Object) {
 
 function initData (vm: Component) {
   let data = vm.$options.data
+  // data缓存 _data
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
@@ -261,6 +267,7 @@ function createGetterInvoker(fn) {
 
 function initMethods (vm: Component, methods: Object) {
   const props = vm.$options.props
+  // 判断methods的有效性
   for (const key in methods) {
     if (process.env.NODE_ENV !== 'production') {
       if (typeof methods[key] !== 'function') {
@@ -289,6 +296,7 @@ function initMethods (vm: Component, methods: Object) {
 
 function initWatch (vm: Component, watch: Object) {
   for (const key in watch) {
+    // 为什么有的对象是数组？
     const handler = watch[key]
     if (Array.isArray(handler)) {
       for (let i = 0; i < handler.length; i++) {
@@ -336,6 +344,7 @@ export function stateMixin (Vue: Class<Component>) {
       warn(`$props is readonly.`, this)
     }
   }
+  // $data
   Object.defineProperty(Vue.prototype, '$data', dataDef)
   Object.defineProperty(Vue.prototype, '$props', propsDef)
 
