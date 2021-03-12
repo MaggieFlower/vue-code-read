@@ -160,7 +160,7 @@ export function defineReactive (
   // cater for pre-defined getter/setters
   const getter = property && property.get
   const setter = property && property.set
-  // 没有getter，setter任意｜有getter且有setter
+  // 没有getter，有setter｜有getter且有setter
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key]
   }
@@ -184,6 +184,7 @@ export function defineReactive (
     },
     set: function reactiveSetter (newVal) {
       const value = getter ? getter.call(obj) : val
+      // newVal或者value有一个为NaN的情况，或者新的值和旧的值一样的，则直接返回
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
         return

@@ -24,7 +24,7 @@ let uid = 0
  * This is used for both the $watch() api and directives.
  */
 export default class Watcher {
-  vm: Component;
+  vm: Component; // vue实例
   expression: string;
   cb: Function;
   id: number;
@@ -47,7 +47,7 @@ export default class Watcher {
     expOrFn: string | Function,
     cb: Function,
     options?: ?Object,
-    isRenderWatcher?: boolean
+    isRenderWatcher?: boolean // 是不是data中的数据
   ) {
     this.vm = vm
     if (isRenderWatcher) {
@@ -68,10 +68,10 @@ export default class Watcher {
     this.id = ++uid // uid for batching
     this.active = true
     this.dirty = this.lazy // for lazy watchers
-    this.deps = []
-    this.newDeps = []
-    this.depIds = new Set()
-    this.newDepIds = new Set()
+    this.deps = [] // 依赖
+    this.newDeps = [] // 新的依赖
+    this.depIds = new Set() // 依赖Id集合
+    this.newDepIds = new Set() // 新产生的依赖ID集合
     this.expression = process.env.NODE_ENV !== 'production'
       ? expOrFn.toString()
       : ''

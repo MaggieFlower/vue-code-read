@@ -11,29 +11,34 @@ let uid = 0
  * directives subscribing to it.
  */
 export default class Dep {
+  // 需要被观察的对象
   static target: ?Watcher;
   id: number;
   subs: Array<Watcher>;
 
   constructor () {
+    // 每new一个依赖收集，id+1
     this.id = uid++
     this.subs = []
   }
 
+  // 添加订阅到容器
   addSub (sub: Watcher) {
     this.subs.push(sub)
   }
-
+  // 移除订阅
   removeSub (sub: Watcher) {
     remove(this.subs, sub)
   }
 
+  // 收集当前观察的对象
   depend () {
     if (Dep.target) {
+      // 调用addDep的同时，调用addSub
       Dep.target.addDep(this)
     }
   }
-
+  // 通知更新
   notify () {
     // stabilize the subscriber list first
     const subs = this.subs.slice()

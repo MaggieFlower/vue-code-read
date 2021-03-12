@@ -101,7 +101,7 @@ function initProps (vm: Component, propsOptions: Object) {
         }
       })
     } else {
-      // 这里是在干嘛？
+      // 收集属性，设置变量的访问器属性
       defineReactive(props, key, value)
     }
     // static props are already proxied on the component's prototype
@@ -116,7 +116,7 @@ function initProps (vm: Component, propsOptions: Object) {
 
 function initData (vm: Component) {
   let data = vm.$options.data
-  // data缓存 _data
+  // data缓存 _data，合并函数的data
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
@@ -241,6 +241,7 @@ export function defineComputed (
       )
     }
   }
+  // computed也是用defineproperty做的
   Object.defineProperty(target, key, sharedPropertyDefinition)
 }
 
