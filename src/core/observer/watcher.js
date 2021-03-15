@@ -47,7 +47,7 @@ export default class Watcher {
     expOrFn: string | Function,
     cb: Function,
     options?: ?Object,
-    isRenderWatcher?: boolean // 是不是data中的数据
+    isRenderWatcher?: boolean // 判断是不是data中的数据
   ) {
     this.vm = vm
     if (isRenderWatcher) {
@@ -79,6 +79,7 @@ export default class Watcher {
     if (typeof expOrFn === 'function') {
       this.getter = expOrFn
     } else {
+      // 获取getter
       this.getter = parsePath(expOrFn)
       if (!this.getter) {
         this.getter = noop
@@ -99,6 +100,7 @@ export default class Watcher {
    * Evaluate the getter, and re-collect dependencies.
    */
   get () {
+    //Dep.target = this
     pushTarget(this)
     let value
     const vm = this.vm
@@ -131,6 +133,7 @@ export default class Watcher {
       this.newDepIds.add(id)
       this.newDeps.push(dep)
       if (!this.depIds.has(id)) {
+        // subs.push(this);
         dep.addSub(this)
       }
     }

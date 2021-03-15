@@ -116,6 +116,8 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
+
+// 这里的value就是data
 export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (!isObject(value) || value instanceof VNode) {
     return
